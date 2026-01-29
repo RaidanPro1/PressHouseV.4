@@ -1,3 +1,4 @@
+
 import { Component, ChangeDetectionStrategy, signal, effect, Renderer2, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -43,6 +44,10 @@ import { TechSupportPortalComponent } from './components/tech-support-portal/tec
 import { NewsroomComponent } from './components/newsroom/newsroom.component';
 import { GeminiCodeAssistComponent } from './components/gemini-code-assist/gemini-code-assist.component';
 import { WebrtcCallComponent } from './components/webrtc-call/webrtc-call.component';
+import { ForensicLabComponent } from './components/forensic-lab/forensic-lab.component';
+import { ErpComponent } from './components/erp/erp.component';
+import { PublicDefenderComponent } from './components/public-defender/public-defender.component';
+import { DastoorMeterComponent } from './components/dastoor-meter/dastoor-meter.component';
 
 // New public portal pages
 import { ViolationsObservatoryPublicComponent } from './components/violations-observatory-public/violations-observatory-public.component';
@@ -118,6 +123,10 @@ import { ThemeService } from './services/theme.service';
     NewsroomComponent,
     GeminiCodeAssistComponent,
     WebrtcCallComponent,
+    ForensicLabComponent,
+    ErpComponent,
+    PublicDefenderComponent,
+    DastoorMeterComponent,
     // New Public Portal Pages
     ViolationsObservatoryPublicComponent,
     TrainingPortalPublicComponent,

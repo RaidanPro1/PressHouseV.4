@@ -1,3 +1,4 @@
+
 <div class="relative min-h-screen flex">
   <!-- Navigation Rail -->
   <app-nav-rail
@@ -37,6 +38,9 @@
         @case ('profile') { <app-profile></app-profile> }
         @case ('system-internals') { <app-system-internals></app-system-internals> }
         @case ('crm') { <app-crm></app-crm> }
+        @case ('erp') { <app-erp></app-erp> }
+        @case ('public-defender') { <app-public-defender></app-public-defender> }
+        @case ('dastoor-meter') { <app-dastoor-meter></app-dastoor-meter> }
         @case ('privacy-policy') { <app-privacy-policy (navigate)="onNavigate($event)"></app-privacy-policy> }
         @case ('terms-of-service') { <app-terms-of-service (navigate)="onNavigate($event)"></app-terms-of-service> }
         @case ('cookie-policy') { <app-cookie-policy></app-cookie-policy> }

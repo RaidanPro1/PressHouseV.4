@@ -1,3 +1,4 @@
+
 -- This schema represents the core data model for the YemenJPT platform,
 -- focusing on user management, tool access, and audit logging as per the architectural design.
 
@@ -73,16 +74,52 @@ CREATE TABLE tool_executions (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- ----------------------------------------------------------------------
+-- 4. PUBLIC DEFENDER (Al-Murafi' Al-Sha'bi)
+-- ----------------------------------------------------------------------
+
+CREATE TABLE service_requests (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    service_type VARCHAR(50), -- e.g., 'public_defender'
+    original_text TEXT, -- The colloquial complaint
+    ai_response TEXT, -- The generated legal document
+    case_type VARCHAR(100),
+    status VARCHAR(20) DEFAULT 'processed',
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- ----------------------------------------------------------------------
+-- 5. DASTOOR METER (Constitution Meter)
+-- ----------------------------------------------------------------------
+
+CREATE TABLE dastoor_violations (
+    id SERIAL PRIMARY KEY,
+    official_name VARCHAR(255),
+    entity_name VARCHAR(255),
+    violation_date DATE,
+    law_violated VARCHAR(255),
+    severity_score INTEGER CHECK (severity_score >= 1 AND severity_score <= 10),
+    summary TEXT,
+    status VARCHAR(20) DEFAULT 'New', -- 'New', 'Verified', 'Published'
+    created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
 -- Example: Populate some tools from tool.service.ts
 INSERT INTO tools (id, name, category, is_active) VALUES
 ('spiderfoot', 'SpiderFoot', 'التقصي والاستخبارات مفتوحة المصدر', true),
 ('sherlock-maigret', 'Sherlock', 'تحليل الإعلام الاجتماعي', true),
 ('archivebox', 'ArchiveBox', 'الأرشفة والتوثيق الرقمي', true),
 ('n8n', 'n8n', 'الأتمتة وسير العمل', true),
-('superdesk', 'Superdesk', 'إدارة غرفة الأخبار والنشر', true);
+('superdesk', 'Superdesk', 'إدارة غرفة الأخبار والنشر', true),
+('public-defender', 'المُرافع الشعبي', 'الخدمات القانونية', true),
+('dastoor-meter', 'دستور-ميتر', 'المساءلة والرقابة', true);
 
 -- Example: Granting permissions
 INSERT INTO tool_permissions (role_name, tool_id) VALUES
 ('investigative-journalist', 'spiderfoot'),
 ('investigative-journalist', 'sherlock-maigret'),
-('editor-in-chief', 'superdesk');
+('editor-in-chief', 'superdesk'),
+('public', 'public-defender'), -- Public access to legal aid
+('investigative-journalist', 'dastoor-meter');

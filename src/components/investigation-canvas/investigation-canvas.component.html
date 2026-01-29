@@ -1,3 +1,4 @@
+
 <div class="h-full flex gap-6">
   <!-- Tool Palette -->
   <aside class="w-64 bg-base-100 p-4 rounded-xl shadow flex-shrink-0 flex flex-col">
@@ -11,6 +12,7 @@
               <div 
                 class="p-2 border rounded-md bg-base-200 hover:bg-gray-200 cursor-grab flex items-center gap-2"
                 draggable="true"
+                [title]="tool.description"
                 (dragstart)="onToolDragStart($event, tool)">
                 <div class="w-6 h-6 flex items-center justify-center rounded-md flex-shrink-0" [ngClass]="tool.iconColor.replace('text-', 'bg-').replace('-500', '-100').replace('-600', '-100')">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4" [ngClass]="tool.iconColor"><path stroke-linecap="round" stroke-linejoin="round" [attr.d]="tool.iconSvg" /></svg>

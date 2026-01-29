@@ -1,3 +1,4 @@
+
 import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -37,6 +38,8 @@ import { TermsOfServiceComponent } from '../terms-of-service/terms-of-service.co
 import { CookiePolicyComponent } from '../cookie-policy/cookie-policy.component';
 import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
 import { InvestigationCanvasComponent } from '../investigation-canvas/investigation-canvas.component';
+import { ForensicLabComponent } from '../forensic-lab/forensic-lab.component';
+import { ErpComponent } from '../erp/erp.component';
 
 
 @Component({
@@ -75,7 +78,9 @@ import { InvestigationCanvasComponent } from '../investigation-canvas/investigat
     TermsOfServiceComponent,
     CookiePolicyComponent,
     DisclaimerComponent,
-    InvestigationCanvasComponent
+    InvestigationCanvasComponent,
+    ForensicLabComponent,
+    ErpComponent
   ],
   templateUrl: './dashboard-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

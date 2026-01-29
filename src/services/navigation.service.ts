@@ -1,3 +1,4 @@
+
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { UserService, UserRole } from './user.service';
 
@@ -27,8 +28,11 @@ export class NavigationService {
     { key: 'dashboard', name: 'كل الأدوات', icon: 'squares-2x2', allowedRoles: ['investigative-journalist', 'editor-in-chief', 'super-admin'] },
     { key: 'ai-core', name: 'النواة المعرفية', icon: 'sparkles', allowedRoles: ['investigative-journalist', 'editor-in-chief', 'super-admin'] },
     { key: 'forensic-lab', name: 'المختبر الجنائي', icon: 'beaker', allowedRoles: ['investigative-journalist', 'editor-in-chief', 'super-admin'] },
+    { key: 'public-defender', name: 'المُرافع الشعبي', icon: 'scale', allowedRoles: ['investigative-journalist', 'editor-in-chief', 'super-admin'] },
+    { key: 'dastoor-meter', name: 'دستور-ميتر', icon: 'presentation-chart-bar', allowedRoles: ['investigative-journalist', 'editor-in-chief', 'super-admin'] },
     { key: 'collaboration', name: 'التعاون', icon: 'users', allowedRoles: ['investigative-journalist', 'editor-in-chief', 'super-admin'] },
     { key: 'admin', name: 'التحكم الإداري', icon: 'shield-check', allowedRoles: ['editor-in-chief', 'super-admin'] },
+    { key: 'erp', name: 'نظام الموارد', icon: 'chart-bar', allowedRoles: ['super-admin'] },
     { key: 'settings', name: 'الإعدادات', icon: 'cog-6-tooth', allowedRoles: ['investigative-journalist', 'editor-in-chief', 'super-admin'] },
   ]);
 

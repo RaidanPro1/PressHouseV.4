@@ -1,7 +1,8 @@
+
 #!/bin/bash
 
 # ============================================================
-# 🇾🇪 YemenJPT & Press House Ecosystem (V18.2 - CPU Compatible Edition)
+# 🇾🇪 YemenJPT & Press House Ecosystem (V18.3 - Fail-Proof Edition)
 # ============================================================
 
 set -e # Exit immediately if a command exits with a non-zero status.
@@ -17,7 +18,7 @@ REPO_DIR=$(cd "$(dirname "$0")" && pwd)
 BASE_DIR="/opt/presshouse"
 
 print_header() {
-    echo -e "${GREEN}>>> Initializing YemenJPT Platform Automated Installation (V18.2)...${NC}"
+    echo -e "${GREEN}>>> Initializing YemenJPT Platform Automated Installation (V18.3)...${NC}"
     echo ""
 }
 
@@ -29,7 +30,7 @@ check_root() {
 }
 
 check_env() {
-    echo -e "${BLUE}⚙️ [1/6] Verifying environment configuration...${NC}"
+    echo -e "${BLUE}⚙️ [1/7] Verifying environment configuration...${NC}"
     if [ ! -f "${REPO_DIR}/.env" ]; then
         echo -e "${RED}❌ CRITICAL: .env file not found. Please copy .env.example to .env and fill in your details.${NC}"
         exit 1
@@ -48,7 +49,7 @@ check_env() {
 }
 
 prepare_system() {
-    echo -e "${BLUE}🛠️ [2/6] Preparing server and installing dependencies...${NC}"
+    echo -e "${BLUE}🛠️ [2/7] Preparing server and installing dependencies...${NC}"
     export DEBIAN_FRONTEND=noninteractive
     apt-get update > /dev/null
     apt-get install -y curl git docker-ce docker-ce-cli containerd.io docker-compose-plugin > /dev/null || {
@@ -62,7 +63,7 @@ prepare_system() {
 }
 
 create_directories() {
-    echo -e "${BLUE}📂 [3/6] Creating persistent data directories...${NC}"
+    echo -e "${BLUE}📂 [3/7] Creating persistent data directories...${NC}"
     mkdir -p "${BASE_DIR}/data/postgres"
     mkdir -p "${BASE_DIR}/data/mariadb"
     mkdir -p "${BASE_DIR}/data/ollama"
@@ -83,14 +84,14 @@ create_directories() {
     mkdir -p "${BASE_DIR}/data/n8n"
     mkdir -p "${BASE_DIR}/data/gitea"
     mkdir -p "${BASE_DIR}/internal_proxy"
-    mkdir -p "${BASE_DIR}/frontend/dist"
+    # We no longer need local dist folder, docker handles it
     mkdir -p "${BASE_DIR}/decoy"
     mkdir -p "${BASE_DIR}/backend"
     echo "   ✅ All data directories created in ${BASE_DIR}."
 }
 
 generate_configs() {
-    echo -e "${BLUE}📝 [4/6] Generating dynamic configurations...${NC}"
+    echo -e "${BLUE}📝 [4/7] Generating dynamic configurations...${NC}"
 
     # Copy primary docker-compose and .env
     cp "${REPO_DIR}/docker-compose.yml" "${BASE_DIR}/docker-compose.yml"
@@ -106,7 +107,7 @@ generate_configs() {
     cp "${REPO_DIR}/secure.sh" "${BASE_DIR}/secure.sh"
     chmod +x "${BASE_DIR}/panic.sh" "${BASE_DIR}/secure.sh"
 
-    # Copy backend source code for building
+    # Copy backend source code
     cp -r "${REPO_DIR}/backend/." "${BASE_DIR}/backend/"
     
     # Create default Nginx config for the internal proxy
@@ -142,15 +143,6 @@ http {
 }
 EOL
 
-    # Create a placeholder index for the main app
-    cat > "${BASE_DIR}/frontend/dist/index.html" << EOL
-<!DOCTYPE html>
-<html>
-<head><title>YemenJPT</title></head>
-<body><h1>YemenJPT Frontend is loading...</h1></body>
-</html>
-EOL
-
     # Create the decoy index file
     cat > "${BASE_DIR}/decoy/index.html" << EOL
 <!DOCTYPE html>
@@ -166,12 +158,23 @@ EOL
     echo "   ✅ Configurations generated."
 }
 
+build_frontend() {
+    echo -e "${BLUE}🏗️ [5/7] Building Frontend Application Docker Image...${NC}"
+    # We build the image directly using the multi-stage Dockerfile
+    # This avoids dependency hell on the host machine.
+    
+    cd "${REPO_DIR}"
+    docker build -t yemenjpt-frontend-prod -f frontend/Dockerfile .
+    
+    echo "   ✅ Frontend image built successfully."
+}
+
 launch_services() {
-    echo -e "${BLUE}🚀 [5/6] Launching all platform services via Docker Compose...${NC}"
+    echo -e "${BLUE}🚀 [6/7] Launching all platform services via Docker Compose...${NC}"
     echo "   (This may take several minutes on the first run as images are downloaded)"
     
     cd "${BASE_DIR}"
-    docker compose up -d --build --remove-orphans
+    docker compose up -d --remove-orphans
     echo "   ✅ Services are starting in the background."
 }
 
@@ -215,6 +218,7 @@ main() {
     prepare_system
     create_directories
     generate_configs
+    build_frontend
     launch_services
     print_summary
 }

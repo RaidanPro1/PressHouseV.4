@@ -1,3 +1,4 @@
+
 import { Injectable, signal, inject } from '@angular/core';
 import { Tool } from '../models/tool.model';
 import { LoggerService } from './logger.service';
@@ -17,6 +18,18 @@ export class ToolService {
       description: 'المساعدة في صياغة العناوين، تلخيص التقارير الطويلة، وتوليد أفكار للقصص.',
       iconSvg: 'M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09ZM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456Z',
       iconColor: 'text-ph-blue', isActive: true, isFavorite: true, isVisiblePublicly: true, allowedRoles: ['super-admin', 'investigative-journalist', 'editor-in-chief', 'public'],
+    },
+    {
+      id: 'public-defender', name: 'المُرافع الشعبي', englishName: 'AI Public Defender', category: 'الخدمات القانونية',
+      description: 'بوت ذكي يحول الشكاوى العامية إلى عرائض قانونية رصينة وجاهزة للتقديم للمحاكم.',
+      iconSvg: 'M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0 0 12 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 0 1-2.031.352 5.988 5.988 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971Zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 0 1-2.031.352 5.989 5.989 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971Z',
+      iconColor: 'text-indigo-600', isActive: true, isFavorite: true, isVisiblePublicly: true, allowedRoles: ['super-admin', 'investigative-journalist', 'editor-in-chief', 'public']
+    },
+    {
+      id: 'dastoor-meter', name: 'دستور-ميتر', englishName: 'Constitution Meter', category: 'المساءلة والرقابة',
+      description: 'مرصد آلي لرصد وتحليل مخالفات المسؤولين للدستور والقانون، مع نظام تنقيط ومؤشرات حية.',
+      iconSvg: 'M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z',
+      iconColor: 'text-red-600', isActive: true, isFavorite: false, isVisiblePublicly: true, allowedRoles: ['super-admin', 'investigative-journalist', 'editor-in-chief']
     },
     {
       id: 'whisper', name: 'المفرغ الصوتي (Whisper)', englishName: 'Audio Transcription', category: 'النواة المعرفية والتحليل الذكي',
@@ -62,8 +75,45 @@ export class ToolService {
     },
 
     // 2. OSINT & Verification
-    { id: 'searxng', name: 'محرك البحث الاستقصائي', englishName: 'SearXNG Metasearch', category: 'التقصي والاستخبارات مفتوحة المصدر', description: 'البحث في مصادر متعددة دون ترك بصمة رقمية أو تتبع للإعلانات.', iconSvg: 'M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z', iconColor: 'text-emerald-500', isActive: true, isFavorite: true, isVisiblePublicly: true, allowedRoles: ['super-admin', 'investigative-journalist', 'editor-in-chief', 'public'], },
-    { id: 'spiderfoot', name: 'أداة SpiderFoot', englishName: 'OSINT Automation', category: 'التقصي والاستخبارات مفتوحة المصدر', description: 'جمع كل المعلومات المتاحة عن هدف معين (إيميل، دومين، اسم مستخدم) بضغطة زر.', iconSvg: 'M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4l1.4-1.4M17 7l1.4-1.4M9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0', iconColor: 'text-pink-500', isActive: true, isFavorite: false, isVisiblePublicly: true, allowedRoles: ['super-admin', 'investigative-journalist'], },
+    { 
+      id: 'searxng', 
+      name: 'محرك البحث الاستقصائي', 
+      englishName: 'SearXNG Metasearch', 
+      category: 'التقصي والاستخبارات مفتوحة المصدر', 
+      description: 'محرك بحث يجمع النتائج من مصادر متعددة دون تتبع. يستخدم للبحث الأولي الآمن عن المعلومات دون كشف هوية المحقق.', 
+      iconSvg: 'M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z', 
+      iconColor: 'text-emerald-500', 
+      isActive: true, 
+      isFavorite: true, 
+      isVisiblePublicly: true, 
+      allowedRoles: ['super-admin', 'investigative-journalist', 'editor-in-chief', 'public'] 
+    },
+    { 
+      id: 'spiderfoot', 
+      name: 'أداة SpiderFoot', 
+      englishName: 'OSINT Automation', 
+      category: 'التقصي والاستخبارات مفتوحة المصدر', 
+      description: 'أداة أتمتة لجمع المعلومات الاستخباراتية (OSINT). تستخدم لمسح الأهداف (عناوين IP، نطاقات، بريد إلكتروني) وجمع بيانات مترابطة من مئات المصادر العامة.', 
+      iconSvg: 'M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4l1.4-1.4M17 7l1.4-1.4M9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0', 
+      iconColor: 'text-pink-500', 
+      isActive: true, 
+      isFavorite: false, 
+      isVisiblePublicly: true, 
+      allowedRoles: ['super-admin', 'investigative-journalist'] 
+    },
+    { 
+      id: 'amass', 
+      name: 'كاشف الشبكات (Amass)', 
+      englishName: 'Network Mapping', 
+      category: 'التقصي والاستخبارات مفتوحة المصدر', 
+      description: 'رسم خريطة للبنية التحتية للشبكة واكتشاف النطاقات الفرعية (Subdomains). يستخدم لكشف الأصول الرقمية المخفية للمؤسسات المستهدفة.', 
+      iconSvg: 'M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.66 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z', 
+      iconColor: 'text-gray-600', 
+      isActive: true, 
+      isFavorite: false, 
+      isVisiblePublicly: false, 
+      allowedRoles: ['super-admin', 'investigative-journalist'] 
+    },
     { id: 'newsleak', name: 'New/s/leak', englishName: 'Leak Analysis', category: 'التقصي والاستخبارات مفتوحة المصدر', description: 'أداة قوية لتحليل الوثائق المسربة (مثل وثائق بنما) ورسم خرائط العلاقات بين الأسماء.', iconSvg: 'M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m9.75 11.625-3.75-3.75M14.25 15.75l3.75 3.75', iconColor: 'text-gray-700', isActive: true, isFavorite: false, isVisiblePublicly: true, allowedRoles: ['super-admin', 'investigative-journalist'] },
     { id: 'scraper', name: 'Scraper', englishName: 'Data Scraping', category: 'التقصي والاستخبارات مفتوحة المصدر', description: 'استخراج البيانات من المواقع التي لا توفر API (مثل جداول الأسعار، قوائم الضحايا).', iconSvg: 'M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z', iconColor: 'text-orange-600', isActive: true, isFavorite: false, isVisiblePublicly: true, allowedRoles: ['super-admin', 'investigative-journalist'] },
     { id: 'changedetection', name: 'راصد التغييرات', englishName: 'ChangeDetection.io', category: 'التقصي والاستخبارات مفتوحة المصدر', description: 'تلقي تنبيه عند تغيير أي كلمة في صفحة ويب (حذف تصريح رسمي، تغيير سعر).', iconSvg: 'M12 4.5C7.305 4.5 3.197 7.633 1.5 12c1.697 4.367 5.805 7.5 10.5 7.5s8.803-3.133 10.5-7.5C20.803 7.633 16.695 4.5 12 4.5zm0 10.5a3 3 0 1 1 0-6 3 3 0 0 1 0 6z', iconColor: 'text-orange-500', isActive: true, isFavorite: true, isVisiblePublicly: true, allowedRoles: ['super-admin', 'investigative-journalist', 'editor-in-chief'] },

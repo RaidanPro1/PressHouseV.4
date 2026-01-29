@@ -1,8 +1,10 @@
+
 @if (tool()) {
   <div 
     (click)="onViewDetails()"
     class="relative bg-base-100 p-4 rounded-xl shadow-md hover:shadow-lg hover:border-ph-blue/50 transition-all duration-300 flex flex-col h-full border border-gray-200 cursor-pointer"
-    [class.run-tool-animation]="isRunning()">
+    [class.run-tool-animation]="isRunning()"
+    [title]="tool().description">
 
     <button (click)="onToggleFavorite($event)" class="absolute top-2 end-2 text-gray-300 hover:text-ph-yellow transition-colors z-10" [class.disabled:opacity-50]="mode() === 'guest'" [disabled]="mode() === 'guest'" [attr.aria-pressed]="tool().isFavorite">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6" [class]="tool().isFavorite ? 'fill-ph-yellow text-ph-yellow' : 'fill-current'">

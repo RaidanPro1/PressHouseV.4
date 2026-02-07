@@ -1,3 +1,4 @@
+
 import { Component, ChangeDetectionStrategy, inject, output, input, signal, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchService } from '../../services/search.service';
@@ -56,6 +57,7 @@ export class HeaderComponent implements OnDestroy {
     { key: 'home', name: 'الرئيسية' },
     { key: 'about', name: 'من نحن' },
     { key: 'platform-overview', name: 'عن المنصة' },
+    { key: 'ai-core', name: 'YemenJPT' }, // New Link
     { key: 'news-public', name: 'الأخبار' },
     { key: 'projects-public', name: 'المشاريع' },
     { key: 'violations-observatory-public', name: 'مرصد الانتهاكات' },

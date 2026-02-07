@@ -32,7 +32,6 @@ export class NavigationService {
     { key: 'dastoor-meter', name: 'دستور-ميتر', icon: 'presentation-chart-bar', allowedRoles: ['investigative-journalist', 'editor-in-chief', 'super-admin'] },
     { key: 'collaboration', name: 'التعاون', icon: 'users', allowedRoles: ['investigative-journalist', 'editor-in-chief', 'super-admin'] },
     { key: 'admin', name: 'التحكم الإداري', icon: 'shield-check', allowedRoles: ['editor-in-chief', 'super-admin'] },
-    { key: 'erp', name: 'نظام الموارد', icon: 'chart-bar', allowedRoles: ['super-admin'] },
     { key: 'settings', name: 'الإعدادات', icon: 'cog-6-tooth', allowedRoles: ['investigative-journalist', 'editor-in-chief', 'super-admin'] },
   ]);
 

@@ -1,6 +1,8 @@
+
 import { Component, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { NotificationService } from '../../services/notification.service';
 import { SettingsService } from '../../services/settings.service';
 import { WebrtcCallComponent } from '../webrtc-call/webrtc-call.component';
@@ -85,6 +87,7 @@ export class CollaborationComponent {
   private confirmationService = inject(ConfirmationService);
   private logger = inject(LoggerService);
   private userService = inject(UserService);
+  private sanitizer = inject(DomSanitizer);
 
   isDataExportEnabled = this.settingsService.isDataExportEnabled;
   isWebRtcEnabled = this.settingsService.isWebRtcEnabled;
@@ -274,20 +277,61 @@ export class CollaborationComponent {
 
   addTaskComment() {
     if (!this.newTaskComment()) return;
-    const currentUser = this.selectedProject()?.team[0]; // Simulate current user
-    if (!currentUser) return;
+    const project = this.selectedProject();
+    const currentUser = project?.team[0]; // Simulate current user
+    if (!currentUser || !project) return;
     
+    const commentText = this.newTaskComment();
+
     this.selectedTask.update(task => {
       if (!task) return null;
       task.comments.push({
         id: `comment-${Date.now()}`,
         author: currentUser,
-        text: this.newTaskComment(),
+        text: commentText,
         timestamp: new Date().toISOString()
       });
       return task;
     });
+
+    // Check for mentions and notify
+    project.team.forEach(member => {
+        // Skip current user, check if name matches @Name
+        if (member.id !== currentUser.id && commentText.includes(`@${member.name}`)) {
+            this.notificationService.addNotification(
+                `قام ${currentUser.name} بالإشارة إليك في تعليق على المهمة: "${this.selectedTask()?.title}"`,
+                'mention',
+                'collaboration'
+            );
+        }
+    });
+
     this.newTaskComment.set('');
+  }
+
+  formatCommentText(text: string): SafeHtml {
+    // 1. Basic HTML Escape to prevent XSS from user input
+    let formatted = text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+    // 2. Highlight Mentions
+    const project = this.selectedProject();
+    if (project) {
+        project.team.forEach(member => {
+            const mention = `@${member.name}`;
+            if (formatted.includes(mention)) {
+               // Use regex to replace all occurrences
+               const regex = new RegExp(mention, 'g');
+               formatted = formatted.replace(regex, `<span class="text-ph-blue font-bold bg-blue-50 px-1 rounded text-xs cursor-pointer hover:underline">${mention}</span>`);
+            }
+        });
+    }
+    
+    return this.sanitizer.bypassSecurityTrustHtml(formatted);
   }
 
 

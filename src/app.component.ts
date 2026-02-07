@@ -1,3 +1,4 @@
+
 import { Component, ChangeDetectionStrategy, signal, effect, Renderer2, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -44,6 +45,8 @@ import { NewsroomComponent } from './components/newsroom/newsroom.component';
 import { GeminiCodeAssistComponent } from './components/gemini-code-assist/gemini-code-assist.component';
 import { WebrtcCallComponent } from './components/webrtc-call/webrtc-call.component';
 import { ForensicLabComponent } from './components/forensic-lab/forensic-lab.component';
+import { PublicDefenderComponent } from './components/public-defender/public-defender.component';
+import { DastoorMeterComponent } from './components/dastoor-meter/dastoor-meter.component';
 
 // New public portal pages
 import { ViolationsObservatoryPublicComponent } from './components/violations-observatory-public/violations-observatory-public.component';
@@ -120,6 +123,8 @@ import { ThemeService } from './services/theme.service';
     GeminiCodeAssistComponent,
     WebrtcCallComponent,
     ForensicLabComponent,
+    PublicDefenderComponent,
+    DastoorMeterComponent,
     // New Public Portal Pages
     ViolationsObservatoryPublicComponent,
     TrainingPortalPublicComponent,
@@ -142,7 +147,7 @@ export class AppComponent {
   private settingsService = inject(SettingsService);
   private loggerService = inject(LoggerService);
   private renderer = inject(Renderer2);
-  private themeService = inject(ThemeService); // Initialize ThemeService
+  private themeService = inject(ThemeService);
   userService = inject(UserService);
   trialService = inject(TrialService);
 

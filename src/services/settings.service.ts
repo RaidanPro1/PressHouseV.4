@@ -1,3 +1,4 @@
+
 import { Injectable, signal } from '@angular/core';
 
 export type AiProvider = 'google' | 'local';
@@ -33,6 +34,9 @@ export class SettingsService {
   // --- Global AI Provider Setting ---
   // Admins can switch between Google's powerful cloud AI and a private local AI.
   aiProvider = signal<AiProvider>('google');
+  
+  // Store the specific model ID to persist selection across navigation
+  activeModelId = signal<string>('gemini-pro');
 
   constructor() { }
 }

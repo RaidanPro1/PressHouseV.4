@@ -65,7 +65,12 @@ export class AiCoreComponent {
     { id: 'gemini-flash', name: 'YemenJPT Flash', icon: '⚡', provider: 'google' },
     { id: 'local-falcon', name: 'Local Falcon-3 (Offline)', icon: '🔒', provider: 'local' }
   ];
-  selectedModel = signal(this.availableModels[0]);
+  
+  // Derived state from settings to ensure persistence
+  selectedModel = computed(() => {
+    const id = this.settingsService.activeModelId();
+    return this.availableModels.find(m => m.id === id) || this.availableModels[0];
+  });
 
   // --- Tool Definitions (Model Context Protocol - Client Side) ---
   private getAllToolsForAI = computed(() => {
@@ -130,7 +135,7 @@ export class AiCoreComponent {
   }
 
   selectModel(model: any) {
-    this.selectedModel.set(model);
+    this.settingsService.activeModelId.set(model.id);
     this.settingsService.aiProvider.set(model.provider as 'google' | 'local');
   }
 

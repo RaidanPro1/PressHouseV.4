@@ -1,5 +1,7 @@
-import { Component, ChangeDetectionStrategy, output, signal, OnDestroy, afterNextRender, computed } from '@angular/core';
+
+import { Component, ChangeDetectionStrategy, output, signal, OnDestroy, afterNextRender, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ViolationsService } from '../../services/violations.service';
 
 interface Slide {
   imageUrl: string;
@@ -17,6 +19,7 @@ interface Slide {
 })
 export class ViolationsObservatoryPublicComponent implements OnDestroy {
   login = output<void>();
+  private violationsService = inject(ViolationsService);
 
   slides = signal<Slide[]>([
     {
@@ -41,38 +44,19 @@ export class ViolationsObservatoryPublicComponent implements OnDestroy {
   currentSlide = signal(0);
   private intervalId: any;
 
-  // Mock data for charts
-  stats = {
-    total: 1204,
-    thisMonth: 15,
-    mostDangerous: 'مأرب'
-  };
+  // --- Real-time Stats from Service ---
+  stats = computed(() => ({
+    total: this.violationsService.totalViolations(),
+    thisMonth: this.violationsService.violationsThisMonth(),
+    mostDangerous: this.violationsService.mostDangerousGovernorate()
+  }));
 
-  violationsByType = [
-    { type: 'اعتقال', count: 450, color: 'bg-red-500' },
-    { type: 'تهديد', count: 320, color: 'bg-yellow-500' },
-    { type: 'اعتداء', count: 210, color: 'bg-orange-500' },
-    { type: 'حجب', count: 150, color: 'bg-blue-500' },
-    { type: 'أخرى', count: 74, color: 'bg-gray-500' },
-  ];
-
-  violationsByGovernorate = [
-    { name: 'مأرب', count: 250, color: 'bg-red-600' },
-    { name: 'صنعاء', count: 210, color: 'bg-red-500' },
-    { name: 'عدن', count: 180, color: 'bg-orange-500' },
-    { name: 'تعز', count: 150, color: 'bg-yellow-500' },
-    { name: 'أخرى', count: 414, color: 'bg-gray-400' },
-  ];
+  violationsByType = this.violationsService.statsByType;
+  violationsByGovernorate = this.violationsService.statsByGovernorate;
 
   perpetratorChartData = computed(() => {
-    const data = [
-      { name: 'جماعة أنصار الله', count: 550, color: 'stroke-red-500', legendColor: 'bg-red-500' },
-      { name: 'قوات الحكومة الشرعية', count: 280, color: 'stroke-orange-500', legendColor: 'bg-orange-500' },
-      { name: 'المجلس الانتقالي الجنوبي', count: 190, color: 'stroke-yellow-500', legendColor: 'bg-yellow-500' },
-      { name: 'مجهولون', count: 120, color: 'stroke-blue-500', legendColor: 'bg-blue-500' },
-      { name: 'أخرى', count: 64, color: 'stroke-gray-400', legendColor: 'bg-gray-400' },
-    ];
-    const total = data.reduce((sum, p) => sum + p.count, 0);
+    const data = this.violationsService.statsByPerpetrator();
+    const total = this.violationsService.totalViolations();
     if (total === 0) return [];
 
     const radius = 54;

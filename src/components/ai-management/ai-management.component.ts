@@ -1,3 +1,4 @@
+
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,11 +17,29 @@ export class AiManagementComponent {
   // --- AI Training State ---
   trainingStatus = signal<'idle' | 'preparing' | 'running' | 'complete'>('idle');
   trainingLogs = signal<string[]>([]);
+  uploadedFileName = signal<string>('');
   
   // --- Model Parameters ---
   temperature = signal(0.7);
   topK = signal(40);
   topP = signal(0.95);
+
+  handleFileUpload(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.uploadedFileName.set(input.files[0].name);
+    }
+  }
+
+  createDataset() {
+    this.logTrainingStep('Processing raw data...');
+    setTimeout(() => {
+        this.logTrainingStep('Cleaning text and formatting to JSONL...');
+        setTimeout(() => {
+             this.logTrainingStep('Dataset created successfully: 154 entries ready for training.');
+        }, 1000);
+    }, 1000);
+  }
 
   startFineTuning() {
     this.trainingLogs.set([]); // Clear logs
@@ -38,7 +57,7 @@ export class AiManagementComponent {
               this.logTrainingStep('Training epoch 3/5 complete. Loss: 0.52');
                setTimeout(() => {
                 this.logTrainingStep('Training epoch 5/5 complete. Loss: 0.31');
-                this.logTrainingStep('Model fine-tuning successful! New model version: yemenjpt-v1.2');
+                this.logTrainingStep('Model fine-tuning successful! New model version: yemenjpt-cloud-v1.2');
                 this.trainingStatus.set('complete');
                 setTimeout(() => this.trainingStatus.set('idle'), 5000);
               }, 4000);

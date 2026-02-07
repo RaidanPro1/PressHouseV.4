@@ -73,15 +73,15 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
             <div class="bg-base-200 p-6 rounded-xl text-center">
                 <p class="text-sm text-gray-500">إجمالي الانتهاكات الموثقة</p>
-                <p class="text-4xl font-bold text-red-600">{{ stats.total }}</p>
+                <p class="text-4xl font-bold text-red-600">{{ stats().total }}</p>
             </div>
             <div class="bg-base-200 p-6 rounded-xl text-center">
                 <p class="text-sm text-gray-500">انتهاكات هذا الشهر</p>
-                <p class="text-4xl font-bold text-gray-900">{{ stats.thisMonth }}</p>
+                <p class="text-4xl font-bold text-gray-900">{{ stats().thisMonth }}</p>
             </div>
             <div class="bg-base-200 p-6 rounded-xl text-center">
                 <p class="text-sm text-gray-500">أكثر المحافظات خطورة</p>
-                <p class="text-3xl font-bold text-gray-900">{{ stats.mostDangerous }}</p>
+                <p class="text-3xl font-bold text-gray-900">{{ stats().mostDangerous }}</p>
             </div>
         </div>
         <!-- Charts -->
@@ -89,7 +89,7 @@
            <div>
             <h3 class="font-bold text-lg mb-4">الانتهاكات حسب النوع</h3>
             <div class="space-y-3">
-              @for(item of violationsByType; track item.type){
+              @for(item of violationsByType(); track item.type){
                 <div class="flex items-center">
                   <span class="w-24 text-sm text-gray-600 font-semibold">{{ item.type }}</span>
                   <div class="flex-grow bg-gray-200 rounded-full h-6">
@@ -117,7 +117,7 @@
                   }
                 </svg>
                 <div class="absolute inset-0 flex items-center justify-center text-center">
-                    <span class="text-2xl font-bold">{{ stats.total }}<br><span class="text-xs font-bold text-gray-500">انتهاك</span></span>
+                    <span class="text-2xl font-bold">{{ stats().total }}<br><span class="text-xs font-bold text-gray-500">انتهاك</span></span>
                 </div>
               </div>
               <div class="space-y-2 text-sm w-full">
@@ -136,7 +136,7 @@
           <div class="lg:col-span-2">
             <h3 class="font-bold text-lg mb-4">التوزيع الجغرافي للانتهاكات (أبرز 5 محافظات)</h3>
              <div class="space-y-3">
-              @for(item of violationsByGovernorate; track item.name){
+              @for(item of violationsByGovernorate(); track item.name){
                 <div class="flex items-center">
                   <span class="w-24 text-sm text-gray-600 font-semibold">{{ item.name }}</span>
                   <div class="flex-grow bg-gray-200 rounded-full h-6">

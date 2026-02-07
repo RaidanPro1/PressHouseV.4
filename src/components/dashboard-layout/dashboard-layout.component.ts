@@ -39,7 +39,8 @@ import { CookiePolicyComponent } from '../cookie-policy/cookie-policy.component'
 import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
 import { InvestigationCanvasComponent } from '../investigation-canvas/investigation-canvas.component';
 import { ForensicLabComponent } from '../forensic-lab/forensic-lab.component';
-import { ErpComponent } from '../erp/erp.component';
+import { PublicDefenderComponent } from '../public-defender/public-defender.component';
+import { DastoorMeterComponent } from '../dastoor-meter/dastoor-meter.component';
 
 
 @Component({
@@ -80,7 +81,8 @@ import { ErpComponent } from '../erp/erp.component';
     DisclaimerComponent,
     InvestigationCanvasComponent,
     ForensicLabComponent,
-    ErpComponent
+    PublicDefenderComponent,
+    DastoorMeterComponent
   ],
   templateUrl: './dashboard-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
